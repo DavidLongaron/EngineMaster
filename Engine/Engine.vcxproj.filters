@@ -65,6 +65,7 @@
     <ClCompile Include="External/MathGeoLib\include\Geometry\Circle.cpp" />
     <ClCompile Include="External/MathGeoLib\include\Geometry\Cone.cpp" />
     <ClCompile Include="External/MathGeoLib\include\Algorithm\Random\LCG.cpp" />
+    <ClCompile Include="Source\ModuleCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source/Application.h" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Source/stb_image.h" />
     <ClInclude Include="External/MathGeoLib\include\MathGeoLib.h" />
     <ClInclude Include="External/MathGeoLib\include\MathGeoLibFwd.h" />
+    <ClInclude Include="Source\ModuleCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">

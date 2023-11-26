@@ -150,6 +150,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\ModuleCamera.cpp" />
     <ClCompile Include="Source/Application.cpp" />
     <ClCompile Include="External/IMGUI\imgui.cpp" />
     <ClCompile Include="External/IMGUI\imgui_demo.cpp" />
@@ -202,6 +203,7 @@
     <ClCompile Include="Source/ModuleWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\ModuleCamera.h" />
     <ClInclude Include="Source/Application.h" />
     <ClInclude Include="Source/debugdraw.h" />
     <ClInclude Include="Source/debug_draw.hpp" />

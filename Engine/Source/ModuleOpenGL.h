@@ -1,7 +1,9 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-#include "MathGeoLib.h"
+#include "Geometry\Frustum.h"
+#include "Math/float4x4.h"
+#include "Math/float3x4.h"
 
 
 struct SDL_Texture;
@@ -29,10 +31,8 @@ public:
 	unsigned int texture2;
 	Frustum frustum;
 	float4x4 proj;
-	float3x4 view;
-	float4x4 model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f),
-		float4x4::RotateZ(pi/ 4.0f),
-		float3(2.0f, 1.0f, 1.0f));
+	float4x4 view;
+	float4x4 model; 
 
 private:
 	void* context;

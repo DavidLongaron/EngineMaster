@@ -6,8 +6,11 @@
 #include "SDL.h"
 #include "GL/glew.h"
 #include "stb_image.h"
+#include "Math/MathFunc.h"
+
 ModuleOpenGL::ModuleOpenGL()
 {
+
 }
 
 // Destructor
@@ -32,6 +35,8 @@ float vertices[] = {
 	-0.5f,  0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  1.0f, 0.0f,// top left 
 	-0.5f, -0.5f, 0.0f,  0.0f, 0.0f, 1.0f,  0.0f, 0.0f, // bottom left
 	 0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  0.0f, 1.0f,// bottom right
+
+
 };
 unsigned int indices[] = {  // note that we start from 0!
 	0, 1, 3,  // first Triangle
@@ -75,6 +80,10 @@ void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, GLe
 void ModuleOpenGL::RenderVBO(unsigned vbo, unsigned program, unsigned vao)
 {	
 	glUseProgram(program);
+
+	glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, &model[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, &view[0][0]);
+	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, &proj[0][0]);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture1);
@@ -164,17 +173,22 @@ bool ModuleOpenGL::Init()
 	//glUniform1i(glGetUniformLocation(App->GetModuleProgram()->shaderProgram, "texture2"), 1);
 
 	frustum.type = FrustumType::PerspectiveFrustum;
-	frustum.pos = float3::zero;
-	frustum.front = -float3::unitZ;
+	frustum.pos = { 0.0f, 0.0f, 2.0f };
+	//frustum.front = -float3::unitZ;
+	frustum.front = (float3::zero-frustum.pos).Normalized();
 	frustum.up = float3::unitY;
 	frustum.nearPlaneDistance = 0.1f;
 	frustum.farPlaneDistance = 100.0f;
-	frustum.verticalFov = static_cast<float>(M_PI / 4.0f);
-	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * static_cast<float>(App->GetWindow()->height / App->GetWindow()->width));
+	frustum.verticalFov = (float)M_PI / 4.0f;
+
+	float aspect = static_cast<float>(App->GetWindow()->width) / static_cast<float>(App->GetWindow()->height);
+	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect);
 	proj = frustum.ProjectionMatrix();
 	view = frustum.ViewMatrix();
 
-
+	model = float4x4::FromTRS(float3(0.0f, 0.0f, -2.0f),
+		float4x4::RotateZ(DegToRad(0)),
+		float3(1.0f, 1.0f, 1.0f));
 	glGenVertexArrays(1, &VAO);
 
 	glBindVertexArray(VAO);
@@ -221,10 +235,9 @@ update_status ModuleOpenGL::PreUpdate()
 // Called every draw update
 update_status ModuleOpenGL::Update()
 {
+
 	RenderVBO(VBO, App->GetModuleProgram()->shaderProgram, VAO);
-	glUniformMatrix4fv(glGetUniformLocation(App->GetModuleProgram()->shaderProgram, "model"), 1, GL_TRUE, &model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->GetModuleProgram()->shaderProgram, "view"), 1, GL_TRUE, &view[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(App->GetModuleProgram()->shaderProgram, "proj"), 1, GL_TRUE, &proj[0][0]);
+
 	//float timeValue = (float)SDL_GetTicks()/1000;
 	//float timeValue2 = (float)SDL_GetTicks() / 900;
 	//float timeValue3 = (float)SDL_GetTicks() / 800;
