@@ -81,9 +81,9 @@ void ModuleOpenGL::RenderVBO(unsigned vbo, unsigned program, unsigned vao)
 {	
 	glUseProgram(program);
 
-	glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, &model[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, &view[0][0]);
-	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, &proj[0][0]);
+	glUniformMatrix4fv(3, 1, GL_TRUE, &model[0][0]);
+	glUniformMatrix4fv(4, 1, GL_TRUE, &view[0][0]);
+	glUniformMatrix4fv(5, 1, GL_TRUE, &proj[0][0]);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture1);
@@ -173,11 +173,11 @@ bool ModuleOpenGL::Init()
 	//glUniform1i(glGetUniformLocation(App->GetModuleProgram()->shaderProgram, "texture2"), 1);
 
 	frustum.type = FrustumType::PerspectiveFrustum;
-	frustum.pos = { 0.0f, 0.0f, 2.0f };
-	//frustum.front = -float3::unitZ;
-	frustum.front = (float3::zero-frustum.pos);
+	frustum.pos = { 0.0f, 2.0f, 2.0f };
+	frustum.front = -float3::unitZ;
+	//frustum.front = (float3::zero-frustum.pos);
 	frustum.front.Normalize();
-	frustum.up = float3::unitY;
+	frustum.up = float3::unitX.Cross(frustum.front).Normalized();
 	frustum.nearPlaneDistance = 0.1f;
 	frustum.farPlaneDistance = 100.0f;
 	frustum.verticalFov = (float)M_PI / 4.0f;
@@ -185,13 +185,12 @@ bool ModuleOpenGL::Init()
 	float aspect = static_cast<float>(App->GetWindow()->width) / static_cast<float>(App->GetWindow()->height);
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect);
 	proj = frustum.ProjectionMatrix();
-	view = frustum.ViewMatrix();
+	view = float4x4(frustum.ViewMatrix());
 
-	model = float3x3::identity;
-		
-		//float4x4::FromTRS(float3(0.0f, 0.0f, -2.0f),
-		//float4x4::RotateZ(DegToRad(0)),
-		//float3(1.0f, 1.0f, 1.0f));
+	model = /*float3x3::identity;*/	
+		float4x4::FromTRS(float3(0.0f, 0.5f, 0.5f),
+		float4x4::RotateX(DegToRad(40)),
+		float3(1.0f, 1.0f, 1.0f));
 	glGenVertexArrays(1, &VAO);
 
 	glBindVertexArray(VAO);
