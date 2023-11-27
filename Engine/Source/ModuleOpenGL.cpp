@@ -175,7 +175,8 @@ bool ModuleOpenGL::Init()
 	frustum.type = FrustumType::PerspectiveFrustum;
 	frustum.pos = { 0.0f, 0.0f, 2.0f };
 	//frustum.front = -float3::unitZ;
-	frustum.front = (float3::zero-frustum.pos).Normalized();
+	frustum.front = (float3::zero-frustum.pos);
+	frustum.front.Normalize();
 	frustum.up = float3::unitY;
 	frustum.nearPlaneDistance = 0.1f;
 	frustum.farPlaneDistance = 100.0f;
@@ -186,9 +187,11 @@ bool ModuleOpenGL::Init()
 	proj = frustum.ProjectionMatrix();
 	view = frustum.ViewMatrix();
 
-	model = float4x4::FromTRS(float3(0.0f, 0.0f, -2.0f),
-		float4x4::RotateZ(DegToRad(0)),
-		float3(1.0f, 1.0f, 1.0f));
+	model = float3x3::identity;
+		
+		//float4x4::FromTRS(float3(0.0f, 0.0f, -2.0f),
+		//float4x4::RotateZ(DegToRad(0)),
+		//float3(1.0f, 1.0f, 1.0f));
 	glGenVertexArrays(1, &VAO);
 
 	glBindVertexArray(VAO);
