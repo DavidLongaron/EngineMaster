@@ -615,7 +615,7 @@ update_status  ModuleDebugDraw::Update()
    
     dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
     dd::xzSquareGrid(-10, 10, 0.0f, 1.0f, dd::colors::Gray);
-    Draw(App->GetOpenGL()->proj, App->GetOpenGL()->view, App->GetWindow()->width, App->GetWindow()->height);
+    Draw(App->GetOpenGL()->view, App->GetOpenGL()->proj, App->GetWindow()->width, App->GetWindow()->height);
 	return UPDATE_CONTINUE;
 }
 

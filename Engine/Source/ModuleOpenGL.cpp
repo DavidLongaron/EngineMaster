@@ -173,7 +173,7 @@ bool ModuleOpenGL::Init()
 	//glUniform1i(glGetUniformLocation(App->GetModuleProgram()->shaderProgram, "texture2"), 1);
 
 	frustum.type = FrustumType::PerspectiveFrustum;
-	frustum.pos = { 0.0f, 2.0f, 2.0f };
+	frustum.pos = { 0.0f, 1.0f, 4.0f };
 	frustum.front = -float3::unitZ;
 	//frustum.front = (float3::zero-frustum.pos);
 	frustum.front.Normalize();
@@ -188,8 +188,8 @@ bool ModuleOpenGL::Init()
 	view = float4x4(frustum.ViewMatrix());
 
 	model = /*float3x3::identity;*/	
-		float4x4::FromTRS(float3(0.0f, 0.5f, 0.5f),
-		float4x4::RotateX(DegToRad(40)),
+		float4x4::FromTRS(float3(0.0f, 1.0f, 0.5f),
+		float4x4::RotateZ(DegToRad(90)),
 		float3(1.0f, 1.0f, 1.0f));
 	glGenVertexArrays(1, &VAO);
 
@@ -277,4 +277,6 @@ void* ModuleOpenGL::GetContext()
 {
 	return context;
 }
+
+
 
