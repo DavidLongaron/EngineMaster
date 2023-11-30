@@ -77,22 +77,6 @@ void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, GLe
 
 
 
-void ModuleOpenGL::SetCameraMatrix()
-{
-	
-	float3 right = frustum.front.Cross(frustum.up).Normalized();
-	float4x4 camMatrix = {
-		right.x, frustum.up.x, -(frustum.front.x), frustum.pos.x,
-		right.y, frustum.up.y, -(frustum.front.y), frustum.pos.y,
-		right.z, frustum.up.z, -(frustum.front.z), frustum.pos.z,
-		0,           0,             0,                 1,
-	};
-
-	cameraMatrix = camMatrix;
-	view = camMatrix;
-	view.Inverse();
-	
-}
 
 void ModuleOpenGL::RenderVBO(unsigned vbo, unsigned program, unsigned vao)
 {	
@@ -189,24 +173,7 @@ bool ModuleOpenGL::Init()
 	//glUniform1i(glGetUniformLocation(App->GetModuleProgram()->shaderProgram, "texture1"), 0);
 	//glUniform1i(glGetUniformLocation(App->GetModuleProgram()->shaderProgram, "texture2"), 1);
 
-	frustum.type = FrustumType::PerspectiveFrustum;
-	frustum.pos = { 0.0f, 1.0f, 4.0f };
-	frustum.front = -float3::unitZ;
-	//frustum.front = (float3::zero-frustum.pos);
-	frustum.front.Normalize();
-	frustum.up = float3::unitX.Cross(frustum.front).Normalized();
-	frustum.nearPlaneDistance = 0.1f;
-	frustum.farPlaneDistance = 100.0f;
-	frustum.verticalFov = (float)M_PI / 4.0f;
-
-	float aspect = static_cast<float>(App->GetWindow()->width) / static_cast<float>(App->GetWindow()->height);
-	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect);
-	proj = frustum.ProjectionMatrix();
-	SetCameraMatrix();
-	model = /*float3x3::identity;*/	
-		float4x4::FromTRS(float3(0.0f, 1.0f, 0.5f),
-		float4x4::RotateZ(DegToRad(90)),
-		float3(1.0f, 1.0f, 1.0f));
+	
 	glGenVertexArrays(1, &VAO);
 
 	glBindVertexArray(VAO);

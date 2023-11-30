@@ -18,6 +18,7 @@ class ModuleCamera :public Module{
 	void SetPlaneDistances();
 	void SetPosition();
 	void SetOrientation();
+	void SetCameraMatrix();
 	float4x4 GetProjectionMatrix();
 	float4x4 GetViewMatrix();
 	//bool CleanUp();
@@ -37,5 +38,6 @@ private:
 	float4x4 proj;
 	float4x4 view;
 	float4x4 model;
+	float4x4 cameraMatrix;
 };
 

@@ -6,6 +6,16 @@
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_opengl3.h"
+
+
+enum KeyState
+{
+    KEY_IDLE = 0,
+    KEY_DOWN,
+    KEY_REPEAT,
+    KEY_UP
+};
+
 ModuleInput::ModuleInput()
 {}
 
@@ -59,4 +69,9 @@ bool ModuleInput::CleanUp()
 	LOG("Quitting SDL input event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
+}
+
+KeyState GetKey(int id) const
+{
+    return keyboard[id];
 }
