@@ -23,6 +23,7 @@ public:
 	bool CleanUp();
 	void WindowResized(unsigned width, unsigned height);
 	void* GetContext();
+	void LookAt();
 	void RenderVBO(unsigned vbo, unsigned program, unsigned vao);
 	unsigned int VBO;
 	unsigned int VAO;

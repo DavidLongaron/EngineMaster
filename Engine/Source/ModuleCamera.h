@@ -24,6 +24,10 @@ class ModuleCamera :public Module{
 	//void WindowResized(unsigned width, unsigned height);
 	//void* GetContext();
 	//void RenderVBO(unsigned vbo, unsigned program, unsigned vao);
+
+
+private:
+	void* context;
 	unsigned int VBO;
 	unsigned int VAO;
 	unsigned int EBO;
@@ -33,8 +37,5 @@ class ModuleCamera :public Module{
 	float4x4 proj;
 	float4x4 view;
 	float4x4 model;
-
-private:
-	void* context;
 };
 
