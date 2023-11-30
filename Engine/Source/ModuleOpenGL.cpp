@@ -77,6 +77,23 @@ void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, GLe
 
 
 
+void ModuleOpenGL::SetCameraMatrix()
+{
+	
+	float3 right = frustum.front.Cross(frustum.up).Normalized();
+	float4x4 camMatrix = {
+		right.x, frustum.up.x, -(frustum.front.x), frustum.pos.x,
+		right.y, frustum.up.y, -(frustum.front.y), frustum.pos.y,
+		right.z, frustum.up.z, -(frustum.front.z), frustum.pos.z,
+		0,           0,             0,                 1,
+	};
+
+	cameraMatrix = camMatrix;
+	view = camMatrix;
+	view.Inverse();
+	
+}
+
 void ModuleOpenGL::RenderVBO(unsigned vbo, unsigned program, unsigned vao)
 {	
 	glUseProgram(program);
@@ -185,8 +202,7 @@ bool ModuleOpenGL::Init()
 	float aspect = static_cast<float>(App->GetWindow()->width) / static_cast<float>(App->GetWindow()->height);
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect);
 	proj = frustum.ProjectionMatrix();
-	view = float4x4(frustum.ViewMatrix());
-
+	SetCameraMatrix();
 	model = /*float3x3::identity;*/	
 		float4x4::FromTRS(float3(0.0f, 1.0f, 0.5f),
 		float4x4::RotateZ(DegToRad(90)),
@@ -271,11 +287,6 @@ bool ModuleOpenGL::CleanUp()
 void ModuleOpenGL::WindowResized(unsigned width, unsigned height)
 {
 	glViewport(0, 0, width, height);
-}
-
-void* ModuleOpenGL::GetContext()
-{
-	return context;
 }
 
 

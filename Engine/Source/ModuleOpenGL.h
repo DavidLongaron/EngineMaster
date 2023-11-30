@@ -22,8 +22,11 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 	void WindowResized(unsigned width, unsigned height);
-	void* GetContext();
-	void LookAt();
+
+	 void* GetContext () const {
+		return context;
+	}
+	void SetCameraMatrix();
 	void RenderVBO(unsigned vbo, unsigned program, unsigned vao);
 	unsigned int VBO;
 	unsigned int VAO;
@@ -32,6 +35,7 @@ public:
 	unsigned int texture2;
 	Frustum frustum;
 	float4x4 proj;
+	float4x4 cameraMatrix;
 	float4x4 view;
 	float4x4 model; 
 
