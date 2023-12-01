@@ -3,6 +3,7 @@
 #include "Application.h"
 #include "ModuleEditor.h"
 #include "iostream"
+#include <Windows.h>
 void log(const char file[], int line, const char* format, ...)
 {
 	static char tmp_string[4096];

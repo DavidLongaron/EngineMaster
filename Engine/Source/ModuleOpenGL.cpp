@@ -3,6 +3,7 @@
 #include "ModuleOpenGL.h"
 #include "ModuleWindow.h"
 #include "ModuleProgram.h"
+#include "ModuleCamera.h"
 #include "SDL.h"
 #include "GL/glew.h"
 #include "stb_image.h"
@@ -81,10 +82,15 @@ void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, GLe
 void ModuleOpenGL::RenderVBO(unsigned vbo, unsigned program, unsigned vao)
 {	
 	glUseProgram(program);
+	//const math::float4x4 model = App->GetModuleCamera()->GetModelMatrix();
 
-	glUniformMatrix4fv(3, 1, GL_TRUE, &model[0][0]);
-	glUniformMatrix4fv(4, 1, GL_TRUE, &view[0][0]);
-	glUniformMatrix4fv(5, 1, GL_TRUE, &proj[0][0]);
+	auto model_matrix = App->GetModuleCamera()->GetModelMatrix();
+	auto view_matrix = App->GetModuleCamera()->GetViewMatrix();
+	auto projection_matrix = App->GetModuleCamera()->GetProjectionMatrix();
+	glUniformMatrix4fv(3, 1, GL_TRUE, &model_matrix[0][0]);
+
+	glUniformMatrix4fv(4, 1, GL_TRUE, &view_matrix[0][0]);
+	glUniformMatrix4fv(5, 1, GL_TRUE, &projection_matrix[0][0]);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture1);
@@ -113,8 +119,8 @@ bool ModuleOpenGL::Init()
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1); // we want a double buffer
 	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24); // we want to have a depth buffer with 24 bits
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8); // we want to have a stencil buffer with 8 bits
-	context = SDL_GL_CreateContext(App->GetWindow()->window);
-	SDL_GL_MakeCurrent(App->GetWindow()->window, context);
+	context = SDL_GL_CreateContext(App->GetModuleWindow()->GetWindow());
+	SDL_GL_MakeCurrent(App->GetModuleWindow()->GetWindow(), context);
 	SDL_GL_SetSwapInterval(1);
 	GLenum err = glewInit();
 	glEnable(GL_DEBUG_OUTPUT);
@@ -198,11 +204,6 @@ bool ModuleOpenGL::Init()
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float)));
 	glEnableVertexAttribArray(2);
 
-	float vec[] = { 1.0f, 0.0f, 0.0f, 1.0f };
-
-
-
-
 	return true;
 }
 
@@ -221,7 +222,7 @@ update_status ModuleOpenGL::PreUpdate()
 update_status ModuleOpenGL::Update()
 {
 
-	RenderVBO(VBO, App->GetModuleProgram()->shaderProgram, VAO);
+	RenderVBO(VBO, App->GetModuleProgram()->GetShaderProgram(), VAO);
 
 	//float timeValue = (float)SDL_GetTicks()/1000;
 	//float timeValue2 = (float)SDL_GetTicks() / 900;
@@ -237,7 +238,7 @@ update_status ModuleOpenGL::Update()
 
 update_status ModuleOpenGL::PostUpdate()
 {
-	SDL_GL_SwapWindow(App->GetWindow()->window);
+	SDL_GL_SwapWindow(App->GetModuleWindow()->GetWindow());
 	return UPDATE_CONTINUE;
 }
 

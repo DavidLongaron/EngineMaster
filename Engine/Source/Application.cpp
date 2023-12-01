@@ -9,18 +9,21 @@
 #include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
 #include "ModuleProgram.h"
+#include "ModuleCamera.h"
 using namespace std;
 
 Application::Application()
 {
 	// Order matters: they will Init/start/update in this order
-	modules.push_back(window = new ModuleWindow());
-	modules.push_back(render = new ModuleOpenGL());
-	modules.push_back(input = new ModuleInput());
+	modules.push_back(moduleWindow = new ModuleWindow());
+	modules.push_back(moduleInput = new ModuleInput());
+	modules.push_back(moduleCamera = new ModuleCamera());
+	modules.push_back(moduleRender = new ModuleOpenGL());
+	
 	//modules.push_back(renderExercise = new ModuleRenderExercise());
-	modules.push_back(program = new ModuleProgram());
-	modules.push_back(editor = new ModuleEditor());
-	modules.push_back(debugDraw = new ModuleDebugDraw());
+	modules.push_back(moduleProgram = new ModuleProgram());
+	modules.push_back(moduleEditor = new ModuleEditor());
+	modules.push_back(moduleDebugDraw = new ModuleDebugDraw());
 
 }
 

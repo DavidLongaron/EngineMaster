@@ -12,8 +12,16 @@ class ModuleProgram :public Module{
 	update_status Update();
 	update_status PostUpdate();
 	unsigned CreateProgram(unsigned vtx_shader, unsigned frg_shader);
-	unsigned int shaderProgram;
 
+	const unsigned int& GetShaderProgram() const {
+		return shaderProgram;
+	}
+
+
+
+ private:
+
+	 unsigned int shaderProgram;
 
 };
 

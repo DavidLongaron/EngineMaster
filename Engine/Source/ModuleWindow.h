@@ -21,7 +21,21 @@ public:
 	// Called before quitting
 	bool CleanUp();
 
-public:
+
+	  SDL_Window* GetWindow() const {
+		return window;
+	}
+	const int GetWidth() const {
+		return width;
+	}
+	const int GetHeight() const {
+		return height;
+	}
+	const SDL_Surface* GetScreen_Surface() const {
+		return screen_surface;
+	}
+
+private:
 	//The window we'll be rendering to
 	SDL_Window* window = NULL;
 	int width;

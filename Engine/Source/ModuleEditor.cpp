@@ -34,9 +34,9 @@ bool ModuleEditor::Init()
 	//	style.Colors[ImGuiCol_WindowBg].w = 1.0f;
 	//}
 
-	SDL_GL_MakeCurrent(App->GetWindow()->window, App->GetOpenGL()->GetContext());
+	SDL_GL_MakeCurrent(App->GetModuleWindow()->GetWindow(), App->GetModuleOpenGL()->GetContext());
 
-	ImGui_ImplSDL2_InitForOpenGL(App->GetWindow()->window, App->GetOpenGL()->GetContext());
+	ImGui_ImplSDL2_InitForOpenGL(App->GetModuleWindow()->GetWindow(), App->GetModuleOpenGL()->GetContext());
 	ImGui_ImplOpenGL3_Init("#version 460");
 
 
@@ -54,7 +54,7 @@ update_status ModuleEditor::Update()
 {
 
 	ImGui_ImplOpenGL3_NewFrame();
-	ImGui_ImplSDL2_NewFrame(App->GetWindow()->window);
+	ImGui_ImplSDL2_NewFrame(App->GetModuleWindow()->GetWindow());
 	ImGui::NewFrame();
 
 	bool show_demo_window = true;
