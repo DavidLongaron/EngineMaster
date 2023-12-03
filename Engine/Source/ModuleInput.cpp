@@ -11,13 +11,20 @@
 typedef unsigned __int8 Uint8;
 
 constexpr unsigned int MAX_KEYS = 300;
-constexpr unsigned int MAX_BUTTONS = 2;
+constexpr unsigned int MAX_BUTTONS = 3;
 ModuleInput::ModuleInput()
 {
     keyboard = new KeyState[MAX_KEYS];
     mouseButtons = new KeyState[MAX_BUTTONS];
+    mouseCurrentPositions = new float[2];
+    mouseMotions = new float[2];
+    mouseLastPosition = new float[2];
+    mouseLastPosition[0] = 0;
+    mouseLastPosition[1] = 0;
     memset(keyboard, KEY_IDLE, sizeof(KeyState) * MAX_KEYS);
     memset(mouseButtons, KEY_IDLE, sizeof(KeyState) * MAX_BUTTONS);
+    memset(mouseCurrentPositions, KEY_IDLE, sizeof(KeyState) * 2);
+    memset(mouseMotions, KEY_IDLE, sizeof(KeyState) * 2);
 }
 
 // Destructor
@@ -28,6 +35,15 @@ ModuleInput::~ModuleInput()
 
     delete[] mouseButtons;
     mouseButtons = nullptr;
+
+    delete[] mouseCurrentPositions;
+    mouseCurrentPositions = nullptr;
+
+    delete[] mouseMotions;
+    mouseMotions = nullptr;
+
+    delete[] mouseLastPosition;
+    mouseLastPosition = nullptr;
 }
 
 // Called before render is available
@@ -46,10 +62,12 @@ bool ModuleInput::Init()
 	return ret;
 }
 
-// Called every draw update
-update_status ModuleInput::Update()
+
+update_status ModuleInput::PreUpdate()
 {
-    const Uint8* keys= SDL_GetKeyboardState(NULL);
+    const Uint8* keys = SDL_GetKeyboardState(NULL);
+    
+
 
     for (unsigned int i = 0; i < MAX_KEYS; i++)
     {
@@ -69,45 +87,91 @@ update_status ModuleInput::Update()
                 keyboard[i] = KEY_IDLE;
             }
         }
-    }
+    };
+
+    for (unsigned int i = 0; i < MAX_BUTTONS; i++)
+    {
+    
+            if (mouseButtons[i] == KEY_DOWN) {
+               mouseButtons[i] = KEY_REPEAT;
+            }
+
+            if (mouseButtons[i] == KEY_UP) {
+                mouseButtons[i] = KEY_IDLE;
+            }
+   
+    };
+
+    int mouseXPosition;
+    int mouseYPosition;
+    SDL_GetMouseState(&mouseXPosition, &mouseYPosition);
+    mouseCurrentPositions[0] = mouseXPosition;
+    mouseCurrentPositions[1] = mouseYPosition;
+
+    mouseMotions[0] = 0;
+    mouseMotions[1] = 0;
+
 
     SDL_Event sdlEvent;
-    
+
     while (SDL_PollEvent(&sdlEvent) != 0)
     {
         switch (sdlEvent.type)
         {
-            case SDL_QUIT:
+        case SDL_QUIT:
+            return UPDATE_STOP;
+
+        case SDL_MOUSEBUTTONDOWN:
+
+            mouseButtons[sdlEvent.button.button - 1] = KEY_DOWN;
+
+            break;
+
+        case SDL_MOUSEBUTTONUP:
+                mouseButtons[sdlEvent.button.button - 1] = KEY_UP;
+            break;
+
+        case SDL_WINDOWEVENT:
+            if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED || sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
+                App->GetModuleOpenGL()->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
+            else if (sdlEvent.window.event == SDL_WINDOWEVENT_CLOSE)
                 return UPDATE_STOP;
-            case SDL_MOUSEBUTTONDOWN:
-                if (mouseButtons[sdlEvent.button.button - 1] == KEY_DOWN) {
-                    mouseButtons[sdlEvent.button.button - 1] = KEY_REPEAT;
-                }
-                else if (mouseButtons[sdlEvent.button.button - 1] == KEY_IDLE) {
-                    mouseButtons[sdlEvent.button.button - 1] = KEY_DOWN;
-                }
-            case SDL_MOUSEBUTTONUP:
-                if (mouseButtons[sdlEvent.button.button - 1] == KEY_UP) {
-                    mouseButtons[sdlEvent.button.button - 1] = KEY_IDLE;
-                }
-                else if (mouseButtons[sdlEvent.button.button - 1] == KEY_REPEAT) {
-                    mouseButtons[sdlEvent.button.button - 1] = KEY_UP;
-                    }
-                    
-            case SDL_WINDOWEVENT:
-                if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED || sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-                    App->GetModuleOpenGL()->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
-                else if(sdlEvent.window.event== SDL_WINDOWEVENT_CLOSE)
-                    return UPDATE_STOP;
-                break;
+            break;
+
+        case SDL_MOUSEMOTION:
+            mouseCurrentPositions[0] = sdlEvent.motion.x;
+            mouseCurrentPositions[1] = sdlEvent.motion.y;
+            break;
+        case SDL_MOUSEWHEEL:
+            mouseWheel = sdlEvent.wheel.y;
+            break;
         }
         ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
     }
 
+
+    return UPDATE_CONTINUE;
+}
+
+
+// Called every draw update
+update_status ModuleInput::Update()
+{
+    
    
    
     return UPDATE_CONTINUE;
 }
+
+update_status ModuleInput::PostUpdate()
+{
+    mouseLastPosition[0] = mouseCurrentPositions[0];
+    mouseLastPosition[1] = mouseCurrentPositions[1];
+
+
+    return UPDATE_CONTINUE;
+}
+
 
 // Called before quitting
 bool ModuleInput::CleanUp()

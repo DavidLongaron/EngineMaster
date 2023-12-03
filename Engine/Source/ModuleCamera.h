@@ -17,7 +17,7 @@ class ModuleCamera :public Module{
 	void SetAspectRatio();
 	void SetPlaneDistances();
 	void SetPosition();
-	void SetOrientation();
+	float3 GenerateDirection(float yaw, float pitch);
 
 	const Frustum& GetFrustum()const  {
 		return frustum;
@@ -43,10 +43,22 @@ class ModuleCamera :public Module{
 	 float4x4 GetModelMatrix()const {
 		return model;
 	};
-
-
+	 float GetYaw()const {
+		 return yaw;
+	 }
+	 float GetPitch()const {
+		 return pitch;
+	 }
+	 void RotateXAxis(int angle);
+	 void RotateYAxis(int angle);
+	 void RotateZAxis(int angle);
+	 void RotateAxis();
 private:
 	Frustum frustum;
 	float4x4 model;
+	float yaw = -90.0f;
+	float pitch = 0.0f;
+	float sensitivity = 0.5;
 };
+
 
