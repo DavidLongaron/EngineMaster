@@ -8,7 +8,6 @@
 #include "GL/glew.h"
 #include "stb_image.h"
 #include "Math/MathFunc.h"
-#include "DirectXTex.h"
 
 ModuleOpenGL::ModuleOpenGL()
 {

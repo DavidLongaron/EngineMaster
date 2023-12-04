@@ -1,4 +1,4 @@
-#define _CRT_SECURE_NO_WARNINGS
+//#define _CRT_SECURE_NO_WARNINGS
 #include "ModuleTexture.h"
 
 #include "Application.h"
@@ -7,7 +7,7 @@
 #include "GL/glew.h"
 
 #include "Math/MathFunc.h"
-#include "DirectXTex.h"
+#include "../DirectXTex.h"
 #include <stdlib.h>
 ModuleTexture::ModuleTexture()
 {
