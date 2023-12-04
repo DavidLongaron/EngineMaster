@@ -1,5 +1,6 @@
 #pragma 
 #define STB_IMAGE_IMPLEMENTATION
+#define _CRT_SECURE_NO_WARNINGS
 #include "stb_image.h"
 #include "Application.h"
 #include "ModuleWindow.h"
@@ -10,6 +11,7 @@
 #include "ModuleEditor.h"
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
+#include "ModuleTexture.h"
 using namespace std;
 
 Application::Application()
@@ -18,8 +20,9 @@ Application::Application()
 	modules.push_back(moduleWindow = new ModuleWindow());
 	modules.push_back(moduleInput = new ModuleInput());
 	modules.push_back(moduleCamera = new ModuleCamera());
+
 	modules.push_back(moduleRender = new ModuleOpenGL());
-	
+	modules.push_back(moduleTexture = new ModuleTexture());
 	//modules.push_back(renderExercise = new ModuleRenderExercise());
 	modules.push_back(moduleProgram = new ModuleProgram());
 	modules.push_back(moduleEditor = new ModuleEditor());

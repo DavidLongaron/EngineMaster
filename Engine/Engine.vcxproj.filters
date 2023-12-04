@@ -66,6 +66,7 @@
     <ClCompile Include="External/MathGeoLib\include\Geometry\Cone.cpp" />
     <ClCompile Include="External/MathGeoLib\include\Algorithm\Random\LCG.cpp" />
     <ClCompile Include="Source\ModuleCamera.cpp" />
+    <ClCompile Include="Source\ModuleTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source/Application.h" />
@@ -167,10 +168,14 @@
     <ClInclude Include="External/MathGeoLib\include\Geometry\Capsule.h" />
     <ClInclude Include="External/MathGeoLib\include\Geometry\Circle.h" />
     <ClInclude Include="External/MathGeoLib\include\Algorithm\Random\LCG.h" />
-    <ClInclude Include="Source/stb_image.h" />
     <ClInclude Include="External/MathGeoLib\include\MathGeoLib.h" />
     <ClInclude Include="External/MathGeoLib\include\MathGeoLibFwd.h" />
     <ClInclude Include="Source\ModuleCamera.h" />
+    <ClInclude Include="Source\ModuleTexture.h" />
+    <ClInclude Include="External\tinygltf-2.8.18\json.hpp" />
+    <ClInclude Include="External\tinygltf-2.8.18\tiny_gltf.h" />
+    <ClInclude Include="External\tinygltf-2.8.18\stb_image.h" />
+    <ClInclude Include="External\tinygltf-2.8.18\stb_image_write.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">

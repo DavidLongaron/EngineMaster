@@ -13,6 +13,7 @@ class ModuleDebugDraw;
 class ModuleEditor;
 class ModuleProgram;
 class ModuleCamera;
+class ModuleTexture;
 
 class Application
 {
@@ -26,6 +27,7 @@ public:
 	bool CleanUp();
 
     ModuleOpenGL* GetModuleOpenGL() const { return moduleRender; }
+    ModuleTexture* GetModuleTexture() const { return moduleTexture; }
     ModuleWindow* GetModuleWindow() const { return moduleWindow; }
     ModuleInput*  GetModuleInput() const { return moduleInput; }
     //ModuleRenderExercise* GetRenderExercise() { return renderExercise; }
@@ -33,6 +35,7 @@ public:
     ModuleEditor* GetModuleEditor() const { return moduleEditor; }
     ModuleProgram* GetModuleProgram() const { return moduleProgram; }
     ModuleCamera* GetModuleCamera() const { return moduleCamera; }
+
 private:
 
     ModuleOpenGL* moduleRender = nullptr;
@@ -43,6 +46,7 @@ private:
     ModuleEditor* moduleEditor = nullptr;    
     ModuleProgram* moduleProgram = nullptr;
     ModuleCamera* moduleCamera = nullptr;
+    ModuleTexture* moduleTexture = nullptr;
     std::list<Module*> modules;
 
 };

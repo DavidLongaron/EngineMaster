@@ -8,6 +8,7 @@
 #include "GL/glew.h"
 #include "stb_image.h"
 #include "Math/MathFunc.h"
+#include "DirectXTex.h"
 
 ModuleOpenGL::ModuleOpenGL()
 {
@@ -82,23 +83,6 @@ void __stdcall OurOpenGLErrorFunction(GLenum source, GLenum type, GLuint id, GLe
 void ModuleOpenGL::RenderVBO(unsigned vbo, unsigned program, unsigned vao)
 {	
 	glUseProgram(program);
-	//const math::float4x4 model = App->GetModuleCamera()->GetModelMatrix();
-
-	auto model_matrix = App->GetModuleCamera()->GetModelMatrix();
-	auto view_matrix = App->GetModuleCamera()->GetViewMatrix();
-	auto projection_matrix = App->GetModuleCamera()->GetProjectionMatrix();
-	glUniformMatrix4fv(3, 1, GL_TRUE, &model_matrix[0][0]);
-
-	glUniformMatrix4fv(4, 1, GL_TRUE, &view_matrix[0][0]);
-	glUniformMatrix4fv(5, 1, GL_TRUE, &projection_matrix[0][0]);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, texture1);
-	//glUniform1i(glGetUniformLocation(App->GetModuleProgram()->shaderProgram, "texture1"), 0);
-
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, texture2);
-	//glUniform1i(glGetUniformLocation(App->GetModuleProgram()->shaderProgram, "texture2"), 1);
 	glBindVertexArray(vao);
 
 
@@ -132,52 +116,6 @@ bool ModuleOpenGL::Init()
 	LOG("OpenGL version supported %s", glGetString(GL_VERSION));
 	LOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
 
-	
-	glGenTextures(1, &texture1);
-	glBindTexture(GL_TEXTURE_2D, texture1);
-	// set the texture wrapping/filtering options (on the currently bound texture object)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// load and generate the texture
-	int width, height, nrChannels;
-	stbi_set_flip_vertically_on_load(true);
-
-	unsigned char* data = stbi_load("Assets/Textures/container.jpg", &width, &height, &nrChannels, 0);
-	if (data)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
-		LOG("Failed to load texture")
-	}
-	stbi_image_free(data);
-
-	//texture 2
-	glGenTextures(1, &texture2);
-	glBindTexture(GL_TEXTURE_2D, texture2);
-	// set the texture wrapping/filtering options (on the currently bound texture object)
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	// load and generate the texture
-	unsigned char* data2 = stbi_load("Assets/Textures/crow.jpg", &width, &height, &nrChannels, 0);
-	if (data2)
-	{
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data2);
-		glGenerateMipmap(GL_TEXTURE_2D);
-	}
-	else
-	{
-		LOG("Failed to load texture")
-	}
-	stbi_image_free(data2);
-	//glUniform1i(glGetUniformLocation(App->GetModuleProgram()->shaderProgram, "texture1"), 0);
-	//glUniform1i(glGetUniformLocation(App->GetModuleProgram()->shaderProgram, "texture2"), 1);
 
 	
 	glGenVertexArrays(1, &VAO);
@@ -224,15 +162,6 @@ update_status ModuleOpenGL::Update()
 
 	RenderVBO(VBO, App->GetModuleProgram()->GetShaderProgram(), VAO);
 
-	//float timeValue = (float)SDL_GetTicks()/1000;
-	//float timeValue2 = (float)SDL_GetTicks() / 900;
-	//float timeValue3 = (float)SDL_GetTicks() / 800;
-	//float randomValue = sin(timeValue) / 2.0f + 0.5f;
-	//float randomValue2 = sin(timeValue2) / 2.0f + 0.5f;
-	//float randomValue3 = sin(timeValue3) / 2.0f + 0.5f;
-
-	//int vertexColorLocation = glGetUniformLocation(App->GetModuleProgram()->shaderProgram, "color");
-	//glUniform4f(vertexColorLocation, randomValue, randomValue2, randomValue3, 1.0f);
 	return UPDATE_CONTINUE;
 }
 

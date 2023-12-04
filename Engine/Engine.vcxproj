@@ -102,13 +102,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\External\SDL\include;.\External\glew-2.1.0\include;.\External\DirectXTex\include;.\External\MathGeoLib\include;.\External\IMGUI</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\External\SDL\include;.\External\glew-2.1.0\include;.\External\DirectXTex\include;.\External\MathGeoLib\include;.\External\IMGUI;.\External\tinygltf-2.8.18</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>.\External\DirectXTex\bin\x64\release;.\External\glew-2.1.0\lib\Release\x64;.\External\SDL\lib\x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;Shell32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>.\External\DirectXTex\bin\x64\debug;.\External\glew-2.1.0\lib\Release\x64;.\External\SDL\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;Shell32.lib;DirectXTex.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -138,7 +138,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\External\SDL\include;.\External\glew-2.1.0\include;.\External\DirectXTex\include;.\External\MathGeoLib\include;.\External\IMGUI</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\External\SDL\include;.\External\glew-2.1.0\include;.\External\DirectXTex\include;.\External\MathGeoLib\include;.\External\IMGUI;.\External\tinygltf-2.8.18</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -146,10 +146,11 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>.\External\DirectXTex\bin\x64\release;.\External\glew-2.1.0\lib\Release\x64;.\External\SDL\lib\x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;Shell32.lib</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;Shell32.lib;DirectXTex.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\ModuleTexture.cpp" />
     <ClCompile Include="Source\ModuleCamera.cpp" />
     <ClCompile Include="Source/Application.cpp" />
     <ClCompile Include="External/IMGUI\imgui.cpp" />
@@ -203,6 +204,11 @@
     <ClCompile Include="Source/ModuleWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="External\tinygltf-2.8.18\json.hpp" />
+    <ClInclude Include="External\tinygltf-2.8.18\stb_image.h" />
+    <ClInclude Include="External\tinygltf-2.8.18\stb_image_write.h" />
+    <ClInclude Include="External\tinygltf-2.8.18\tiny_gltf.h" />
+    <ClInclude Include="Source\ModuleTexture.h" />
     <ClInclude Include="Source\ModuleCamera.h" />
     <ClInclude Include="Source/Application.h" />
     <ClInclude Include="Source/debugdraw.h" />
@@ -287,7 +293,6 @@
     <ClInclude Include="Source/ModuleRender.h" />
     <ClInclude Include="Source/ModuleRenderExercise.h" />
     <ClInclude Include="Source/ModuleWindow.h" />
-    <ClInclude Include="Source/stb_image.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="External/MathGeoLib\include\Geometry\KDTree.inl" />
@@ -298,6 +303,5 @@
     <None Include="External/MathGeoLib\include\Math\Matrix.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
-  <ImportGroup Label="ExtensionTargets">
-  </ImportGroup>
+  <ImportGroup Label="ExtensionTargets" />
 </Project>
