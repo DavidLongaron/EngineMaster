@@ -108,7 +108,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>.\External\DirectXTex\Bin\Desktop_2022_Win10\x64\Debug;.\External\glew-2.1.0\lib\Release\x64;.\External\SDL\lib\x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;Shell32.lib;DirectXTex.lib</AdditionalDependencies>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies); glew32.lib; opengl32.lib; DirectXTex.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -146,10 +146,12 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>.\External\DirectXTex\bin\x64\release;.\External\glew-2.1.0\lib\Release\x64;.\External\SDL\lib\x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;Shell32.lib;DirectXTex.lib;</AdditionalDependencies>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies); glew32.lib; opengl32.lib; DirectXTex.lib</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Mesh.cpp" />
+    <ClCompile Include="Source\ModuleModel.cpp" />
     <ClCompile Include="Source\ModuleTexture.cpp" />
     <ClCompile Include="Source\ModuleCamera.cpp" />
     <ClCompile Include="Source/Application.cpp" />
@@ -209,6 +211,8 @@
     <ClInclude Include="External\tinygltf-2.8.18\stb_image.h" />
     <ClInclude Include="External\tinygltf-2.8.18\stb_image_write.h" />
     <ClInclude Include="External\tinygltf-2.8.18\tiny_gltf.h" />
+    <ClInclude Include="Source\Mesh.h" />
+    <ClInclude Include="Source\ModuleModel.h" />
     <ClInclude Include="Source\ModuleTexture.h" />
     <ClInclude Include="Source\ModuleCamera.h" />
     <ClInclude Include="Source/Application.h" />

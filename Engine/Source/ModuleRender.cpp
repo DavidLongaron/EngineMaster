@@ -1,4 +1,8 @@
 #include "ModuleRender.h"
+#include "ModuleModel.h"
+#include "Mesh.h"
+#include "Globals.h"
+
 ModuleRender::ModuleRender()
 {
 }
@@ -23,7 +27,8 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update()
 {
-
+	ModuleModel* model = new ModuleModel;
+	model->Load("./Assets/Models/Triangle/Triangle");
 	return UPDATE_CONTINUE;
 }
 

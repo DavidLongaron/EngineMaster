@@ -67,6 +67,8 @@
     <ClCompile Include="External/MathGeoLib\include\Algorithm\Random\LCG.cpp" />
     <ClCompile Include="Source\ModuleCamera.cpp" />
     <ClCompile Include="Source\ModuleTexture.cpp" />
+    <ClCompile Include="Source\ModuleModel.cpp" />
+    <ClCompile Include="Source\Mesh.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source/Application.h" />
@@ -177,6 +179,8 @@
     <ClInclude Include="External\tinygltf-2.8.18\stb_image.h" />
     <ClInclude Include="External\tinygltf-2.8.18\stb_image_write.h" />
     <ClInclude Include="External\DirectXTex\include\DirectXTex.h" />
+    <ClInclude Include="Source\ModuleModel.h" />
+    <ClInclude Include="Source\Mesh.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">

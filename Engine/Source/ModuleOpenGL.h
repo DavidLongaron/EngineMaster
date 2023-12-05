@@ -28,15 +28,6 @@ public:
 	   auto* GetContext() const {
 		 return context;
 	 }
-	 const unsigned int& GetVBO() const {
-		 return VBO;
-	 }
-	 const unsigned int& GetVAO() const {
-		 return VAO;
-	 }
-	 const unsigned int& GetEBO() const {
-		 return EBO;
-	 }
 	 const unsigned int& GetTexture1() const {
 		 return texture1;
 	 }
@@ -49,9 +40,6 @@ public:
 
 private:
 	void* context;
-	unsigned int VBO;
-	unsigned int VAO;
-	unsigned int EBO;
 	unsigned int texture1;
 	unsigned int texture2;
 };
