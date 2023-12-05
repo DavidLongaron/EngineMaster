@@ -1,8 +1,10 @@
 #include "ModuleRender.h"
 #include "ModuleModel.h"
+#include "ModuleCamera.h"
 #include "Mesh.h"
 #include "Globals.h"
-
+#include "Application.h"
+#include "GL/glew.h"
 ModuleRender::ModuleRender()
 {
 }
@@ -15,6 +17,9 @@ ModuleRender::~ModuleRender()
 // Called before render is available
 bool ModuleRender::Init()
 {
+	ModuleModel* model = new ModuleModel;
+	model->Load("Assets/Models/Triangle/Triangle.gltf");
+
 	return true;
 }
 
@@ -27,8 +32,13 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update()
 {
-	ModuleModel* model = new ModuleModel;
-	model->Load("./Assets/Models/Triangle/Triangle");
+	auto model_matrix = App->GetModuleCamera()->GetModelMatrix();
+	auto view_matrix = App->GetModuleCamera()->GetViewMatrix();
+	auto projection_matrix = App->GetModuleCamera()->GetProjectionMatrix();
+	glUniformMatrix4fv(3, 1, GL_TRUE, &model_matrix[0][0]);
+	glUniformMatrix4fv(4, 1, GL_TRUE, &view_matrix[0][0]);
+	glUniformMatrix4fv(5, 1, GL_TRUE, &projection_matrix[0][0]);
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -36,4 +46,9 @@ update_status ModuleRender::PostUpdate()
 {
 	
 	return UPDATE_CONTINUE;
+}
+
+bool ModuleRender::CleanUp()
+{
+	return true;
 }

@@ -6,8 +6,8 @@ namespace tinygltf {
 class ModuleModel
 {
 public:
-	const void Load(const char* assetFileName)const;
-	void LoadMaterials(const tinygltf::Model& srcModel);
+	const void Load(const char* assetFileName);
+	void LoadMaterials(tinygltf::Model& srcModel);
 
 private:
 	std::vector<unsigned int> textures;

@@ -9,12 +9,13 @@
 #include "Application.h"
 #include "ModuleTexture.h"
 
-const void ModuleModel::Load(const char* assetFileName) const
+const void ModuleModel::Load(const char* assetFileName)
 {
 	tinygltf::TinyGLTF gltfContext;
 	tinygltf::Model model;
 	std::string error, warning;
 	bool loadOk = gltfContext.LoadASCIIFromFile(&model, &error, &warning, assetFileName);
+	assert(loadOk);
 	if (!loadOk)
 	{
 		LOG("Error loading %s: %s", assetFileName, error.c_str());
@@ -26,10 +27,19 @@ const void ModuleModel::Load(const char* assetFileName) const
 			Mesh* mesh = new Mesh;
 			mesh->LoadMesh(model, srcMesh, primitive);
 		}
+
+	}
+	if (!model.textures.empty()) {
+		
+
+		LoadMaterials(model);
+	
 	}
 }
 
-void ModuleModel::LoadMaterials(const tinygltf::Model& srcModel)
+
+
+void ModuleModel::LoadMaterials( tinygltf::Model& srcModel)
 {
 	for (const auto& srcMaterial : srcModel.materials)
 	{
@@ -38,7 +48,9 @@ void ModuleModel::LoadMaterials(const tinygltf::Model& srcModel)
 		{
 			const tinygltf::Texture& texture = srcModel.textures[srcMaterial.pbrMetallicRoughness.baseColorTexture.index];
 			const tinygltf::Image& image = srcModel.images[texture.source];
-			textureId = (App->GetModuleTexture()->Load(image.uri));
+			/*	textureId = (App->GetModuleTexture()->Load(image.uri));*/
 		}
 		textures.push_back(textureId);
 	}
+
+}

@@ -119,13 +119,7 @@ update_status ModuleTexture::PreUpdate()
 // Called every draw update
 update_status ModuleTexture::Update()
 {
-	auto model_matrix = App->GetModuleCamera()->GetModelMatrix();
-	auto view_matrix = App->GetModuleCamera()->GetViewMatrix();
-	auto projection_matrix = App->GetModuleCamera()->GetProjectionMatrix();
-	glUniformMatrix4fv(3, 1, GL_TRUE, &model_matrix[0][0]);
 
-	glUniformMatrix4fv(4, 1, GL_TRUE, &view_matrix[0][0]);
-	glUniformMatrix4fv(5, 1, GL_TRUE, &projection_matrix[0][0]);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, texture1);

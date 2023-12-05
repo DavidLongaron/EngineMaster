@@ -8,7 +8,7 @@ class ModuleOpenGL;
 class ModuleWindow;
 class ModuleTextures;
 class ModuleInput;
-//class ModuleRenderExercise;
+class ModuleRender;
 class ModuleDebugDraw;
 class ModuleEditor;
 class ModuleProgram;
@@ -26,11 +26,11 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-    ModuleOpenGL* GetModuleOpenGL() const { return moduleRender; }
+    ModuleOpenGL* GetModuleOpenGL() const { return moduleOpenGL; }
     ModuleTexture* GetModuleTexture() const { return moduleTexture; }
     ModuleWindow* GetModuleWindow() const { return moduleWindow; }
     ModuleInput*  GetModuleInput() const { return moduleInput; }
-    //ModuleRenderExercise* GetRenderExercise() { return renderExercise; }
+    ModuleRender* GetModuleRender() { return moduleRender; }
     ModuleDebugDraw* GetModuleDebugDraw() const { return moduleDebugDraw; }
     ModuleEditor* GetModuleEditor() const { return moduleEditor; }
     ModuleProgram* GetModuleProgram() const { return moduleProgram; }
@@ -38,10 +38,10 @@ public:
 
 private:
 
-    ModuleOpenGL* moduleRender = nullptr;
+    ModuleOpenGL* moduleOpenGL = nullptr;
     ModuleWindow* moduleWindow = nullptr;
     ModuleInput* moduleInput = nullptr;
-    //ModuleRenderExercise* renderExercise = nullptr;
+    ModuleRender* moduleRender = nullptr;
     ModuleDebugDraw* moduleDebugDraw = nullptr;
     ModuleEditor* moduleEditor = nullptr;    
     ModuleProgram* moduleProgram = nullptr;
