@@ -1,7 +1,7 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-
+#include <string>
 enum KeyState
 {
 	KEY_IDLE = 0,
@@ -53,6 +53,23 @@ public:
 		mouseMotions[1] = 0;
 		mouseMotions[2] = 0;
 	}
+	 std::string GetDroppedFileDir() {
+		if (droppedFileDir) {
+			
+			std::string fileDir(droppedFileDir);
+			std::string assetStr = "Assets";
+			size_t test = fileDir.find(assetStr);
+
+			std::string fileDirShort = fileDir.substr(fileDir.find(assetStr), (fileDir.length() - fileDir.find(assetStr)));
+
+			return fileDirShort;
+		}
+		std::string empty = "0";
+		return empty;
+	}
+	void ResetDroppedFileDir() {
+		droppedFileDir = nullptr;
+	}
 private:
 	 KeyState* keyboard = nullptr;
 	 KeyState* mouseButtons = nullptr;
@@ -60,5 +77,6 @@ private:
 	 float* mouseMotions = nullptr;
 	 float* mouseCurrentPositions = nullptr;
 	 float* mouseLastPosition = nullptr;
+	 char* droppedFileDir = nullptr;
 
 };

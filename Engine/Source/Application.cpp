@@ -18,15 +18,16 @@ Application::Application()
 {
 	// Order matters: they will Init/start/update in this order
 	modules.push_back(moduleWindow = new ModuleWindow());
-	modules.push_back(moduleInput = new ModuleInput());
 	modules.push_back(moduleCamera = new ModuleCamera());
 
 	modules.push_back(moduleOpenGL = new ModuleOpenGL());
 	modules.push_back(moduleTexture = new ModuleTexture());
-	modules.push_back(moduleRender = new ModuleRender());
 	modules.push_back(moduleProgram = new ModuleProgram());
+	modules.push_back(moduleRender = new ModuleRender());
+
 	modules.push_back(moduleEditor = new ModuleEditor());
 	modules.push_back(moduleDebugDraw = new ModuleDebugDraw());
+	modules.push_back(moduleInput = new ModuleInput());
 
 }
 

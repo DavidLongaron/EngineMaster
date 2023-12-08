@@ -8,17 +8,18 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleTexture.h"
+#include <iostream>
 
-const void ModuleModel::Load(const char* assetFileName)
+const void ModuleModel::Load(const std::string& assetFileName)
 {
 	tinygltf::TinyGLTF gltfContext;
 	tinygltf::Model model;
 	std::string error, warning;
 	bool loadOk = gltfContext.LoadASCIIFromFile(&model, &error, &warning, assetFileName);
-	assert(loadOk);
 	if (!loadOk)
 	{
 		LOG("Error loading %s: %s", assetFileName, error.c_str());
+		return;
 	}
 	for (const auto& srcMesh : model.meshes)
 	{
@@ -26,6 +27,7 @@ const void ModuleModel::Load(const char* assetFileName)
 		{
 			Mesh* mesh = new Mesh;
 			mesh->LoadMesh(model, srcMesh, primitive);
+			meshes.push_back(mesh);
 		}
 
 	}
@@ -48,7 +50,7 @@ void ModuleModel::LoadMaterials( tinygltf::Model& srcModel)
 		{
 			const tinygltf::Texture& texture = srcModel.textures[srcMaterial.pbrMetallicRoughness.baseColorTexture.index];
 			const tinygltf::Image& image = srcModel.images[texture.source];
-			/*	textureId = (App->GetModuleTexture()->Load(image.uri));*/
+			textureId = (App->GetModuleTexture()->LoadTexture(image.uri));
 		}
 		textures.push_back(textureId);
 	}

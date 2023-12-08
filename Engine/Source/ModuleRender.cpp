@@ -1,5 +1,8 @@
 #include "ModuleRender.h"
 #include "ModuleModel.h"
+#include "Application.h"
+#include "ModuleProgram.h"
+#include "ModuleInput.h"
 #include "ModuleCamera.h"
 #include "Mesh.h"
 #include "Globals.h"
@@ -19,7 +22,7 @@ ModuleRender::~ModuleRender()
 bool ModuleRender::Init()
 {
 	
-	model->Load("Assets/Models/Triangle/Triangle.gltf");
+	model->Load("Assets/Models/BakerHouse/BakerHouse.gltf");
 
 	return true;
 }
@@ -33,13 +36,25 @@ update_status ModuleRender::PreUpdate()
 // Called every draw update
 update_status ModuleRender::Update()
 {
+	if (App->GetModuleInput()->GetDroppedFileDir() != "0") {
+		model->Load(App->GetModuleInput()->GetDroppedFileDir());
+		App->GetModuleInput()->ResetDroppedFileDir();
+	}
 	auto model_matrix = App->GetModuleCamera()->GetModelMatrix();
 	auto view_matrix = App->GetModuleCamera()->GetViewMatrix();
 	auto projection_matrix = App->GetModuleCamera()->GetProjectionMatrix();
+	glUseProgram(App->GetModuleProgram()->GetShaderProgram());
 	glUniformMatrix4fv(3, 1, GL_TRUE, &model_matrix[0][0]);
 	glUniformMatrix4fv(4, 1, GL_TRUE, &view_matrix[0][0]);
 	glUniformMatrix4fv(5, 1, GL_TRUE, &projection_matrix[0][0]);
-	model->ERROR
+	if (!model->GetMeshes().empty()) {
+
+		for (auto& mesh : model->GetMeshes())
+		{
+
+			mesh->RenderMesh();
+		}
+	}
 		/*
 		Añadir array de meshes en el model y llamarlos desde el modulerenderer para llamar render en el update.
 		

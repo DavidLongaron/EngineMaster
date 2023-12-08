@@ -36,9 +36,9 @@ bool ModuleCamera::Init()
 	frustum.horizontalFov = 2.f * atanf(tanf(frustum.verticalFov * 0.5f) * aspect);
 
 	model = /*float3x3::identity;*/
-		float4x4::FromTRS(float3(0.0f, 1.0f, 0.5f),
-			float4x4::RotateZ(DegToRad(90)),
-			float3(1.0f, 1.0f, 1.0f));
+		float4x4::FromTRS(float3(0.0f, 0.0f, 0.0f),
+			float4x4::RotateZ(DegToRad(0)),
+			float3(20.0f, 20.0f, 20.0f));
 	return true;
 }
 

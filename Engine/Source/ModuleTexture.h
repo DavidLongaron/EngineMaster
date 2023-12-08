@@ -1,5 +1,6 @@
 #pragma once
 #include "Module.h"
+#include <string>
 class ModuleTexture :public Module
 {
 public:
@@ -7,18 +8,17 @@ public:
 	virtual ~ModuleTexture();
 
 	bool Init();
+
 	update_status PreUpdate();
 	update_status Update();
 	update_status PostUpdate();
+	unsigned int LoadTexture(std::string texturePath);
 	const unsigned int& GetTexture1() const {
-		return texture1;
-	}
-	const unsigned int& GetTexture2() const {
-		return texture2;
+		return texture;
 	}
 	private:
-		unsigned int texture1;
-		unsigned int texture2;
-
+		unsigned int texture;
+		wchar_t* textureLocation;
 };
+
 

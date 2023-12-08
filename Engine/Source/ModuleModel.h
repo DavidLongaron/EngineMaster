@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <string>
 namespace tinygltf {
 	class Model;
 }
@@ -7,7 +8,7 @@ class Mesh;
 class ModuleModel
 {
 public:
-	const void Load(const char* assetFileName);
+	const void Load(const std::string& assetFileName);
 	void LoadMaterials(tinygltf::Model& srcModel);
 	const std::vector<Mesh*> GetMeshes() const { return meshes; }
 private:

@@ -8,7 +8,7 @@ namespace tinygltf {
 
 class Mesh{
 public:
-	void Render();
+	void RenderMesh();
 	void LoadMesh(const tinygltf::Model& model, const tinygltf::Mesh& mesh, const tinygltf::Primitive& primitive);
 	void LoadVBO(const tinygltf::Model& model, const tinygltf::Mesh& mesh, const tinygltf::Primitive& primitive);
 	void LoadEBO(const tinygltf::Model& model, const tinygltf::Mesh& mesh, const tinygltf::Primitive& primitive);
@@ -23,11 +23,11 @@ public:
 	}
 
 private:
+	unsigned int indicesCount;
 	unsigned int VBO;
 	unsigned int VAO;
 	unsigned int EBO;
 	unsigned int vertexCount;
-	unsigned int indicesCount;
 
 };
 

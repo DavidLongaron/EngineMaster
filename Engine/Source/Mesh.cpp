@@ -11,31 +11,38 @@
 #define TINYGLTF_NO_EXTERNAL_IMAGE
 #include "tiny_gltf.h"
 
-void Mesh::Render()
+void Mesh::RenderMesh()
 {
 	glUseProgram(App->GetModuleProgram()->GetShaderProgram());
-
+	glBindVertexArray(VAO);
 	glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_INT, 0);
+	glBindVertexArray(0);
 }
 
 
 void Mesh::LoadMesh(const tinygltf::Model& model, const tinygltf::Mesh& mesh, const tinygltf::Primitive& primitive)
 {
-	glGenVertexArrays(1, &VAO);
-	glBindVertexArray(VAO);
+	
 	//LLmar a los otros load aqui
 	LoadVBO(model, mesh, primitive);
 	LoadEBO(model, mesh, primitive);
+	glGenVertexArrays(1, &VAO);
+	glBindVertexArray(VAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 	glEnableVertexAttribArray(0);
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * vertexCount));
 	glBindVertexArray(0);
-	Render();
 }
 
 void Mesh::LoadVBO(const tinygltf::Model& model, const tinygltf::Mesh& mesh, const tinygltf::Primitive& primitive)
 {
+	const unsigned char* bufferPos = nullptr;
+	const unsigned char* bufferTexCoord = nullptr;
+
+
 	const auto& itPos = primitive.attributes.find("POSITION");
 	if (itPos != primitive.attributes.end())
 	{
@@ -44,18 +51,53 @@ void Mesh::LoadVBO(const tinygltf::Model& model, const tinygltf::Mesh& mesh, con
 		SDL_assert(posAcc.type == TINYGLTF_TYPE_VEC3);
 		SDL_assert(posAcc.componentType == GL_FLOAT);
 		const tinygltf::BufferView& posView = model.bufferViews[posAcc.bufferView];
-		const unsigned char* bufferPos = &(model.buffers[posView.buffer].data[posAcc.byteOffset + posView.byteOffset]);
-		glGenBuffers(1, &VBO);
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * posAcc.count, nullptr, GL_STATIC_DRAW);
-		float3* ptr = reinterpret_cast<float3*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
-		for (size_t i = 0; i < posAcc.count; ++i)
-		{
-			ptr[i] = *reinterpret_cast<const float3*>(bufferPos);
-			bufferPos += posView.byteStride;
-		}
-		glUnmapBuffer(GL_ARRAY_BUFFER);
+		bufferPos = &(model.buffers[posView.buffer].data[posAcc.byteOffset + posView.byteOffset]);
 	}
+
+	const auto& itTexCoord = primitive.attributes.find("TEXCOORD_0");
+	unsigned int textureCount = 0;
+	if (itTexCoord != primitive.attributes.end())
+	{
+		const tinygltf::Accessor& texCoordAcc = model.accessors[itTexCoord->second];
+
+
+		textureCount = texCoordAcc.count;
+		assert(textureCount == vertexCount);
+		SDL_assert(texCoordAcc.type == TINYGLTF_TYPE_VEC2);
+		SDL_assert(texCoordAcc.componentType == GL_FLOAT);
+		const tinygltf::BufferView& texCoordView = model.bufferViews[texCoordAcc.bufferView];
+		bufferTexCoord = &(model.buffers[texCoordView.buffer].data[texCoordAcc.byteOffset + texCoordView.byteOffset]);
+
+	}
+	glGenBuffers(1, &VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 3 * 2 *vertexCount, nullptr, GL_STATIC_DRAW);
+
+	float* data = reinterpret_cast<float*>(glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY));
+	unsigned int loopIndex = 0;
+	for (size_t i = 0; i < vertexCount; ++i)
+	{
+		data[loopIndex++] = *reinterpret_cast<const float*>(bufferPos);
+		bufferPos += sizeof(float);
+
+		data[loopIndex++] = *reinterpret_cast<const float*>(bufferPos);
+		bufferPos += sizeof(float);
+
+		data[loopIndex++] = *reinterpret_cast<const float*>(bufferPos);
+		bufferPos += sizeof(float);
+		
+	}
+
+	for (size_t i = 0; i < textureCount; ++i)
+	{
+		data[loopIndex++] = *reinterpret_cast<const float*>(bufferTexCoord);
+		bufferTexCoord += sizeof(float);
+
+		data[loopIndex++] = *reinterpret_cast<const float*>(bufferTexCoord);
+		bufferTexCoord += sizeof(float);
+	}
+
+	glUnmapBuffer(GL_ARRAY_BUFFER);
 }
 
 
@@ -89,9 +131,9 @@ void Mesh::LoadEBO(const tinygltf::Model& model, const tinygltf::Mesh& mesh, con
 		}
 		if (indAcc.componentType == TINYGLTF_PARAMETER_TYPE_UNSIGNED_BYTE)
 		{
-			const uint8_t* bufferInd = reinterpret_cast<const uint8_t*>(buffer);
+		
 			for (uint8_t i = 0; i < indAcc.count; ++i) {
-				ptr[i] = bufferInd[i];
+				ptr[i] = buffer[i];
 			}
 		}
 		glUnmapBuffer(GL_ELEMENT_ARRAY_BUFFER);

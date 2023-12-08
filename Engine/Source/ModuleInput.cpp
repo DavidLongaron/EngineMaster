@@ -44,6 +44,8 @@ ModuleInput::~ModuleInput()
 
     delete[] mouseLastPosition;
     mouseLastPosition = nullptr;
+    delete[] droppedFileDir;
+    droppedFileDir = nullptr;
 }
 
 // Called before render is available
@@ -145,7 +147,13 @@ update_status ModuleInput::PreUpdate()
         case SDL_MOUSEWHEEL:
             mouseWheel = sdlEvent.wheel.y;
             break;
+        case SDL_DROPFILE:
+            droppedFileDir = sdlEvent.drop.file;
+
+
+            break;
         }
+
         ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
     }
 
