@@ -22,16 +22,16 @@ public:
 	bool CleanUp();
 
 
-	  SDL_Window* GetWindow() const {
+	inline SDL_Window* GetWindow() const {
 		return window;
 	}
-	const int GetWidth() const {
+	  inline const int GetWidth() const {
 		return width;
 	}
-	const int GetHeight() const {
+	  inline const int GetHeight() const {
 		return height;
 	}
-	const SDL_Surface* GetScreen_Surface() const {
+	  inline const SDL_Surface* GetScreen_Surface() const {
 		return screen_surface;
 	}
 

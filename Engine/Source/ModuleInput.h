@@ -33,16 +33,16 @@ public:
 	{
 		return mouseButtons[id-1];
 	}
-	int const GetMouseWheel() const {
+	inline  int const GetMouseWheel() const {
 		return mouseWheel;
 	}
-	float* const GetMouseMotions() const {
+	inline float* const GetMouseMotions() const {
 		return mouseMotions;
 	}
-	float* const GetMouseCurrentPositions() const {
+	inline float* const GetMouseCurrentPositions() const {
 		return mouseCurrentPositions;
 	}
-	float* const GetMouseLastPosition() const {
+	inline float* const GetMouseLastPosition() const {
 		return mouseLastPosition;
 	}
 	void ResetMouseWheel() {

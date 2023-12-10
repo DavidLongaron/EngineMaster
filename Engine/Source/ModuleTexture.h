@@ -13,7 +13,7 @@ public:
 	update_status Update();
 	update_status PostUpdate();
 	unsigned int LoadTexture(std::string texturePath);
-	const unsigned int& GetTexture1() const {
+	inline const unsigned int& GetTexture1() const {
 		return texture;
 	}
 	private:

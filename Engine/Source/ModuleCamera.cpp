@@ -37,8 +37,8 @@ bool ModuleCamera::Init()
 
 	model = /*float3x3::identity;*/
 		float4x4::FromTRS(float3(0.0f, 0.0f, 0.0f),
-			float4x4::RotateZ(DegToRad(0)),
-			float3(20.0f, 20.0f, 20.0f));
+			float4x4::RotateX(DegToRad(modelRot.x)) * float4x4::RotateY(DegToRad(modelRot.y)) * float4x4::RotateZ(DegToRad(modelRot.z)),
+			viewSize);
 	return true;
 }
 
@@ -53,6 +53,10 @@ update_status ModuleCamera::PreUpdate()
 update_status ModuleCamera::Update()
 {
 	float speed = 0.5f;
+	model = /*float3x3::identity;*/
+		float4x4::FromTRS(float3(0.0f, 0.0f, 0.0f),
+		float4x4::RotateX(DegToRad(modelRot.x))* float4x4::RotateY(DegToRad(modelRot.y)) * float4x4::RotateZ(DegToRad(modelRot.z)),
+		viewSize);
 
 	if (App->GetModuleInput()->GetKey(SDL_SCANCODE_Q) == KEY_REPEAT)
 		frustum.pos += speed*frustum.up;
@@ -120,24 +124,9 @@ update_status ModuleCamera::Update()
 		frustum.pos[2] -= speed;
 		App->GetModuleInput()->ResetMouseWheel();
 		}
-	if (App->GetModuleInput()->GetMouseButton(SDL_BUTTON_LEFT) == KEY_REPEAT) {
-		//float2 offset;
-		//offset.x = App->GetModuleInput()->GetMouseCurrentPositions()[0] - App->GetModuleInput()->GetMouseLastPosition()[0];
-		//offset.y = App->GetModuleInput()->GetMouseCurrentPositions()[1] - App->GetModuleInput()->GetMouseLastPosition()[1];
-		//yaw += offset.x;
-		//pitch += offset.y;
-
-		//if (pitch > 89.0f)
-		//	pitch = 89.0f;
-		//if (pitch < -89.0f)
-		//	pitch = -89.0f;
-
+	if (App->GetModuleInput()->GetMouseButton(SDL_BUTTON_RIGHT) == KEY_REPEAT) {
 
 		RotateAxis();
-
-		//RotateXAxis(pitch);
-		//RotateYAxis(yaw);
-		//App->GetModuleInput()->ResetMouseMotions();
 	}
 
 

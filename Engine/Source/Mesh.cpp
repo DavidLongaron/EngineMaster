@@ -26,6 +26,7 @@ void Mesh::LoadMesh(const tinygltf::Model& model, const tinygltf::Mesh& mesh, co
 	//LLmar a los otros load aqui
 	LoadVBO(model, mesh, primitive);
 	LoadEBO(model, mesh, primitive);
+	glDeleteVertexArrays(1, &VAO);
 	glGenVertexArrays(1, &VAO);
 	glBindVertexArray(VAO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -39,6 +40,7 @@ void Mesh::LoadMesh(const tinygltf::Model& model, const tinygltf::Mesh& mesh, co
 
 void Mesh::LoadVBO(const tinygltf::Model& model, const tinygltf::Mesh& mesh, const tinygltf::Primitive& primitive)
 {
+	vertexCount = 0;
 	const unsigned char* bufferPos = nullptr;
 	const unsigned char* bufferTexCoord = nullptr;
 
@@ -68,6 +70,9 @@ void Mesh::LoadVBO(const tinygltf::Model& model, const tinygltf::Mesh& mesh, con
 		const tinygltf::BufferView& texCoordView = model.bufferViews[texCoordAcc.bufferView];
 		bufferTexCoord = &(model.buffers[texCoordView.buffer].data[texCoordAcc.byteOffset + texCoordView.byteOffset]);
 
+	}
+	if (VBO > 0) {
+		glDeleteBuffers(1, &VBO);
 	}
 	glGenBuffers(1, &VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
@@ -104,13 +109,16 @@ void Mesh::LoadVBO(const tinygltf::Model& model, const tinygltf::Mesh& mesh, con
 void Mesh::LoadEBO(const tinygltf::Model& model, const tinygltf::Mesh& mesh, const tinygltf::Primitive& primitive) {
 	if (primitive.indices >= 0)
 	{
-
+		indicesCount = 0;
 
 		const tinygltf::Accessor& indAcc = model.accessors[primitive.indices];
 		indicesCount = indAcc.count;
 		const tinygltf::BufferView& indView = model.bufferViews[indAcc.bufferView];
 
 		const unsigned char* buffer = &(model.buffers[indView.buffer].data[indAcc.byteOffset + indView.byteOffset]);
+		if (EBO > 0) {
+			glDeleteBuffers(1, &EBO);
+		}
 		glGenBuffers(1, &EBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * indAcc.count, nullptr, GL_STATIC_DRAW);

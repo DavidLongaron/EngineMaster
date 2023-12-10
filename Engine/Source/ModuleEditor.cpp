@@ -1,10 +1,14 @@
 #include "Application.h"
 #include "ModuleEditor.h"
+#include "ModuleCamera.h"
 #include "ModuleWindow.h"
 #include "ModuleOpenGL.h"
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_opengl3.h"
+#include <windows.h>
+#include <shellapi.h>
+
 
 ModuleEditor::ModuleEditor()
 {
@@ -52,26 +56,32 @@ update_status ModuleEditor::PreUpdate()
 // Called every draw update
 update_status ModuleEditor::Update()
 {
+	static int counter = 0;
 
+	msLog[counter] = App->miliSecondsFrame*1000;
+	fpsLog[counter] = (1 / (msLog[counter]))*1000;
+	counter++;
+	if (counter > 25) {
+			counter = 0;
+		}
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplSDL2_NewFrame(App->GetModuleWindow()->GetWindow());
 	ImGui::NewFrame();
 
-	bool show_demo_window = true;
+	/*bool show_demo_window = false;*/
     ImGui::DockSpaceOverViewport(ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-	ImGui::ShowDemoWindow(&show_demo_window);
+	//ImGui::ShowDemoWindow(&show_demo_window);
 	static float f = 0.0f;
-	static int counter = 0;
+
 
 	ImGui::SetNextWindowSize(ImVec2(800, 800), ImGuiCond_FirstUseEver);
     OpenLog();
-
+	OpenGeneralMenu();
+	OpenTransformationMenu();
+	OpenFPSMenu();
 	ImGui::Render();
 	
-
-	/*SDL_GL_MakeCurrent(App->GetWindow()->window, App->GetOpenGL()->GetContext());*/
-
 
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	SDL_Window* backup_current_window = SDL_GL_GetCurrentWindow();
@@ -116,3 +126,35 @@ bool ModuleEditor::CleanUp()
     }
     ImGui::End();
 }
+
+	void ModuleEditor::OpenGeneralMenu() {
+		ImGui::Begin("Help");
+			if (ImGui::MenuItem("Documentation")) {
+				ShellExecute(0, 0,"https://github.com/MrDfu/EngineMaster", 0, 0, SW_SHOW);
+			}
+			if (ImGui::MenuItem("Download latest")) {
+				ShellExecute(0, 0, "https://github.com/MrDfu/EngineMaster", 0, 0, SW_SHOW);
+			}
+			if (ImGui::MenuItem("About")) {
+				ShellExecute(0, 0, "https://github.com/MrDfu/EngineMaster/blob/main/README.md", 0, 0, SW_SHOW);
+			}
+
+		ImGui::End();
+	}
+
+	void ModuleEditor::OpenTransformationMenu() {
+		ImGui::Begin("Edit Model");
+		ImGui::SliderFloat3("Transformation", &(App->GetModuleCamera()->viewSize.x), 0.0f, 50.0f);
+		ImGui::SliderFloat3("Rotation", &(App->GetModuleCamera()->modelRot.x), -180.0f, 180.0f);
+		ImGui::End();
+	}
+	void ModuleEditor::OpenFPSMenu() {
+		char title[25];
+		ImGui::Begin("Performance");
+		sprintf_s(title, 25, "Framerate %.1f", fpsLog[fpsLog.size()-1]);
+		ImGui::PlotHistogram("##framerate", &fpsLog[0], fpsLog.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
+		sprintf_s(title, 25, "Miliseconds %0.1f", msLog[msLog.size()-1]);
+		ImGui::PlotHistogram("##framerate", &msLog[0], msLog.size(), 0, title, 0.0f, 100.0f, ImVec2(310, 100));
+		
+		ImGui::End();
+	}

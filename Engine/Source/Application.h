@@ -3,7 +3,7 @@
 #include<list>
 #include "Globals.h"
 #include "Module.h"
-
+#include "SDL.h"
 class ModuleOpenGL;
 class ModuleWindow;
 class ModuleTextures;
@@ -26,16 +26,21 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-    ModuleOpenGL* GetModuleOpenGL() const { return moduleOpenGL; }
-    ModuleTexture* GetModuleTexture() const { return moduleTexture; }
-    ModuleWindow* GetModuleWindow() const { return moduleWindow; }
-    ModuleInput*  GetModuleInput() const { return moduleInput; }
-    ModuleRender* GetModuleRender() { return moduleRender; }
-    ModuleDebugDraw* GetModuleDebugDraw() const { return moduleDebugDraw; }
-    ModuleEditor* GetModuleEditor() const { return moduleEditor; }
-    ModuleProgram* GetModuleProgram() const { return moduleProgram; }
-    ModuleCamera* GetModuleCamera() const { return moduleCamera; }
-
+    inline ModuleOpenGL* GetModuleOpenGL() const { return moduleOpenGL; }
+    inline ModuleTexture* GetModuleTexture() const { return moduleTexture; }
+    inline ModuleWindow* GetModuleWindow() const { return moduleWindow; }
+    inline ModuleInput*  GetModuleInput() const { return moduleInput; }
+    inline ModuleRender* GetModuleRender() { return moduleRender; }
+    inline ModuleDebugDraw* GetModuleDebugDraw() const { return moduleDebugDraw; }
+    inline ModuleEditor* GetModuleEditor() const { return moduleEditor; }
+    inline ModuleProgram* GetModuleProgram() const { return moduleProgram; }
+    inline ModuleCamera* GetModuleCamera() const { return moduleCamera; }
+    Uint64 currentTicks;
+    unsigned int deltaTicks;
+    unsigned int fps = 0;
+    float miliSecondsFrame = 0;
+    Uint64 microSecondsEnd=0;
+    Uint64 microSecondsBegin = 0;
 private:
 
     ModuleOpenGL* moduleOpenGL = nullptr;

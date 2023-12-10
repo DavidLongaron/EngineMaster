@@ -12,13 +12,13 @@ public:
 	void LoadMesh(const tinygltf::Model& model, const tinygltf::Mesh& mesh, const tinygltf::Primitive& primitive);
 	void LoadVBO(const tinygltf::Model& model, const tinygltf::Mesh& mesh, const tinygltf::Primitive& primitive);
 	void LoadEBO(const tinygltf::Model& model, const tinygltf::Mesh& mesh, const tinygltf::Primitive& primitive);
-	const unsigned int& GetVBO() const {
+	inline const unsigned int& GetVBO() const {
 		return VBO;
 	}
-	const unsigned int& GetVAO() const {
+	inline const unsigned int& GetVAO() const {
 		return VAO;
 	}
-	const unsigned int& GetEBO() const {
+	inline const unsigned int& GetEBO() const {
 		return EBO;
 	}
 

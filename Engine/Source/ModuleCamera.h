@@ -19,10 +19,10 @@ class ModuleCamera :public Module{
 	void SetPosition();
 	float3 GenerateDirection(float yaw, float pitch);
 
-	const Frustum& GetFrustum()const  {
+	inline const Frustum& GetFrustum()const  {
 		return frustum;
 	};
-	  float4x4 GetViewMatrix()const {
+	inline float4x4 GetViewMatrix()const {
 
 		//float3 right = frustum.front.Cross(frustum.up).Normalized();
 		//float4x4 camMatrix = {
@@ -37,28 +37,34 @@ class ModuleCamera :public Module{
 
 		return frustum.ViewMatrix();
 	};
-	 float4x4 GetProjectionMatrix()const {
+	  inline float4x4 GetProjectionMatrix()const {
 		return frustum.ProjectionMatrix();
 	};
-	 float4x4 GetModelMatrix()const {
+	 inline float4x4 GetModelMatrix()const {
 		return model;
 	};
-	 float GetYaw()const {
+	 inline float GetYaw()const {
 		 return yaw;
 	 }
-	 float GetPitch()const {
+	 inline  float GetPitch()const {
 		 return pitch;
 	 }
 	 void RotateXAxis(int angle);
 	 void RotateYAxis(int angle);
 	 void RotateZAxis(int angle);
 	 void RotateAxis();
+	 inline float3& getViewSize() {
+		 return viewSize;
+	 }
+	 float3 viewSize = float3(10.0f, 10.0f, 10.0f);
+	 float3  modelRot = float3(0.0f, 0.0f, 0.0f);
 private:
 	Frustum frustum;
 	float4x4 model;
 	float yaw = -90.0f;
 	float pitch = 0.0f;
 	float sensitivity = 0.5;
+	
 };
 
 

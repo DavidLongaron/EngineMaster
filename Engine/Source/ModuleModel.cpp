@@ -12,6 +12,7 @@
 
 const void ModuleModel::Load(const std::string& assetFileName)
 {
+	meshes.clear();
 	tinygltf::TinyGLTF gltfContext;
 	tinygltf::Model model;
 	std::string error, warning;
@@ -43,6 +44,7 @@ const void ModuleModel::Load(const std::string& assetFileName)
 
 void ModuleModel::LoadMaterials( tinygltf::Model& srcModel)
 {
+	textures.clear();
 	for (const auto& srcMaterial : srcModel.materials)
 	{
 		unsigned int textureId = 0;

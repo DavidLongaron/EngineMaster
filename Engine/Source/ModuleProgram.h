@@ -13,7 +13,7 @@ class ModuleProgram :public Module{
 	update_status PostUpdate();
 	unsigned CreateProgram(unsigned vtx_shader, unsigned frg_shader);
 
-	const unsigned int& GetShaderProgram() const {
+	inline const unsigned int& GetShaderProgram() const {
 		return shaderProgram;
 	}
 

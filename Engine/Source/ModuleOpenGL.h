@@ -25,21 +25,11 @@ public:
 	void RenderVBO(unsigned vbo, unsigned program, unsigned vao);
 
 
-	   auto* GetContext() const {
+	inline auto* GetContext() const {
 		 return context;
 	 }
-	 const unsigned int& GetTexture1() const {
-		 return texture1;
-	 }
-	 const unsigned int& GetTexture2() const {
-		 return texture2;
-	 }
-
-	
-
 
 private:
 	void* context;
-	unsigned int texture1;
-	unsigned int texture2;
+
 };

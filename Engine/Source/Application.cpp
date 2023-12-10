@@ -12,6 +12,7 @@
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
 #include "ModuleTexture.h"
+
 using namespace std;
 
 Application::Application()
@@ -51,8 +52,11 @@ bool Application::Init()
 
 update_status Application::Update()
 {
-	update_status ret = UPDATE_CONTINUE;
+	microSecondsBegin = SDL_GetPerformanceCounter();
 
+
+	update_status ret = UPDATE_CONTINUE;
+	
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		ret = (*it)->PreUpdate();
 
@@ -61,6 +65,10 @@ update_status Application::Update()
 
 	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
 		ret = (*it)->PostUpdate();
+
+	microSecondsEnd = SDL_GetPerformanceCounter() - microSecondsBegin;
+	miliSecondsFrame = ( microSecondsEnd ) / static_cast<float>(SDL_GetPerformanceFrequency());
+
 
 	return ret;
 }
@@ -74,3 +82,4 @@ bool Application::CleanUp()
 
 	return ret;
 }
+
