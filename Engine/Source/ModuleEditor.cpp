@@ -12,6 +12,8 @@
 
 ModuleEditor::ModuleEditor()
 {
+	fpsLog(25);
+	msLog(25);
 }
 
 // Destructor
@@ -58,7 +60,7 @@ update_status ModuleEditor::Update()
 {
 	static int counter = 0;
 
-	msLog[counter] = App->miliSecondsFrame*1000;
+	msLog.push_back(App->miliSecondsFrame*1000);
 	fpsLog[counter] = (1 / (msLog[counter]))*1000;
 	counter++;
 	if (counter > 25) {

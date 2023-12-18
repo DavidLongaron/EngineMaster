@@ -15,15 +15,19 @@
 #include "ModuleScene.h"
 ModuleModel::ModuleModel()
 {
+	model = new tinygltf::Model();
 }
 ModuleModel::~ModuleModel()
 {
 	meshes.clear();
+	delete model;
+	model = nullptr;
 
 }
 const void ModuleModel::Load(const std::string& assetFileName)
 {
 	meshes.clear();
+	
 	tinygltf::TinyGLTF gltfContext;
 	std::string error, warning;
 	bool loadOk = gltfContext.LoadASCIIFromFile(model, &error, &warning, assetFileName);
@@ -92,7 +96,7 @@ GameObject* ModuleModel::TraverseAllNodes(tinygltf::Node node) {
 			compTrans->SetScale({ static_cast<float>(node.scale[0]),static_cast<float>(node.scale[1]), static_cast<float>(node.scale[2]) });
 		}
 	}
-	if (node.mesh) {
+	if (node.mesh!=-1) {
 		go->mesh = meshes[node.mesh];
 	}
 	if (node.children.size() > 0) {

@@ -22,9 +22,9 @@ class ModuleEditor :public Module
 	  unsigned int currentTicks;
 	  unsigned int deltaTicks;
 	  unsigned int fps = 0;
-	 /*std::vector<float> fpsLog(25);*/
-	std::vector<float> fpsLog{0,0,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 };
-	std::vector<float> msLog{ 0,0,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 };
-
+	  std::vector<float> fpsLog;
+	//std::vector<float> fpsLog{0,0,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 };
+	//std::vector<float> msLog{ 0,0,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,0 };
+	 std::vector<float> msLog;
 };
 

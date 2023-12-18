@@ -5,13 +5,13 @@
 
 GameObject::GameObject() {}
 
-GameObject::GameObject(GameObject&& other)
-{
-	this->children = std::move(other.children);
-	this->name = std::move(other.name);
-	this->components = std::move(other.components);
-	this->parent = std::move(other.parent);
-}
+//GameObject::GameObject(GameObject&& other)
+//{
+//	this->children = std::move(other.children);
+//	this->name = std::move(other.name);
+//	this->components = std::move(other.components);
+//	this->parent = std::move(other.parent);
+//}
 
 Component* GameObject::CreateComponent(ComponentType type)
 {

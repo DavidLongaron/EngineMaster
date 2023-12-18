@@ -11,7 +11,7 @@ class GameObject
 public:
 	GameObject();
 	void Update();
-	GameObject(GameObject&& other);
+	/*GameObject(GameObject&& other);*/
 	Component* CreateComponent(ComponentType type);
 	void AddChild(GameObject* obj);
 	Mesh* mesh;
