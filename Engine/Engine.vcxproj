@@ -150,6 +150,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\ComponentTransform.cpp" />
+    <ClCompile Include="Source\Component.cpp" />
+    <ClCompile Include="Source\GameObject.cpp" />
+    <ClCompile Include="Source\ModuleScene.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
     <ClCompile Include="Source\ModuleModel.cpp" />
     <ClCompile Include="Source\ModuleTexture.cpp" />
@@ -206,11 +210,15 @@
     <ClCompile Include="Source/ModuleWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\ComponentTransform.h" />
+    <ClInclude Include="Source\Component.h" />
     <ClInclude Include="External\DirectXTex\include\DirectXTex.h" />
     <ClInclude Include="External\tinygltf-2.8.18\json.hpp" />
     <ClInclude Include="External\tinygltf-2.8.18\stb_image.h" />
     <ClInclude Include="External\tinygltf-2.8.18\stb_image_write.h" />
     <ClInclude Include="External\tinygltf-2.8.18\tiny_gltf.h" />
+    <ClInclude Include="Source\GameObject.h" />
+    <ClInclude Include="Source\ModuleScene.h" />
     <ClInclude Include="Source\Mesh.h" />
     <ClInclude Include="Source\ModuleModel.h" />
     <ClInclude Include="Source\ModuleTexture.h" />

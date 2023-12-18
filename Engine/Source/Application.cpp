@@ -12,7 +12,7 @@
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
 #include "ModuleTexture.h"
-
+#include "ModuleScene.h"
 using namespace std;
 
 Application::Application()
@@ -29,7 +29,7 @@ Application::Application()
 	modules.push_back(moduleEditor = new ModuleEditor());
 	modules.push_back(moduleDebugDraw = new ModuleDebugDraw());
 	modules.push_back(moduleInput = new ModuleInput());
-
+	modules.push_back(moduleScene = new ModuleScene());
 }
 
 Application::~Application()

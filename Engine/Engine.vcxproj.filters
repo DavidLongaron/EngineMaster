@@ -69,6 +69,10 @@
     <ClCompile Include="Source\ModuleTexture.cpp" />
     <ClCompile Include="Source\ModuleModel.cpp" />
     <ClCompile Include="Source\Mesh.cpp" />
+    <ClCompile Include="Source\ModuleScene.cpp" />
+    <ClCompile Include="Source\GameObject.cpp" />
+    <ClCompile Include="Source\Component.cpp" />
+    <ClCompile Include="Source\ComponentTransform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source/Application.h" />
@@ -181,6 +185,10 @@
     <ClInclude Include="External\DirectXTex\include\DirectXTex.h" />
     <ClInclude Include="Source\ModuleModel.h" />
     <ClInclude Include="Source\Mesh.h" />
+    <ClInclude Include="Source\ModuleScene.h" />
+    <ClInclude Include="Source\GameObject.h" />
+    <ClInclude Include="Source\Component.h" />
+    <ClInclude Include="Source\ComponentTransform.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="ImGui">

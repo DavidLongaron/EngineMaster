@@ -14,7 +14,7 @@ class ModuleEditor;
 class ModuleProgram;
 class ModuleCamera;
 class ModuleTexture;
-
+class ModuleScene;
 class Application
 {
 public:
@@ -35,6 +35,7 @@ public:
     inline ModuleEditor* GetModuleEditor() const { return moduleEditor; }
     inline ModuleProgram* GetModuleProgram() const { return moduleProgram; }
     inline ModuleCamera* GetModuleCamera() const { return moduleCamera; }
+    inline ModuleScene* GetModuleScene() const { return moduleScene; }
     Uint64 currentTicks;
     unsigned int deltaTicks;
     unsigned int fps = 0;
@@ -52,6 +53,7 @@ private:
     ModuleProgram* moduleProgram = nullptr;
     ModuleCamera* moduleCamera = nullptr;
     ModuleTexture* moduleTexture = nullptr;
+    ModuleScene* moduleScene = nullptr;
     std::list<Module*> modules;
 
 };

@@ -2,8 +2,9 @@
 #define __ModuleWindow_H__
 
 #include "Module.h"
-#include "SDL.h"
 
+class SDL_Window;
+class SDL_Surface;
 class Application;
 
 class ModuleWindow : public Module
@@ -22,16 +23,16 @@ public:
 	bool CleanUp();
 
 
-	inline SDL_Window* GetWindow() const {
+	 SDL_Window* GetWindow() const {
 		return window;
 	}
-	  inline const int GetWidth() const {
+	   const int GetWidth() const {
 		return width;
 	}
-	  inline const int GetHeight() const {
+	   const int GetHeight() const {
 		return height;
 	}
-	  inline const SDL_Surface* GetScreen_Surface() const {
+	   const SDL_Surface* GetScreen_Surface() const {
 		return screen_surface;
 	}
 
