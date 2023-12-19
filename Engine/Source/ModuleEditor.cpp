@@ -10,10 +10,9 @@
 #include <shellapi.h>
 
 
-ModuleEditor::ModuleEditor()
+ModuleEditor::ModuleEditor() : fpsLog(25), msLog(25)
 {
-	fpsLog(25);
-	msLog(25);
+
 }
 
 // Destructor
@@ -63,7 +62,7 @@ update_status ModuleEditor::Update()
 	msLog.push_back(App->miliSecondsFrame*1000);
 	fpsLog[counter] = (1 / (msLog[counter]))*1000;
 	counter++;
-	if (counter > 25) {
+	if (counter > 24) {
 			counter = 0;
 		}
 	ImGui_ImplOpenGL3_NewFrame();
